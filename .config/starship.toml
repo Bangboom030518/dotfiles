@@ -1,0 +1,39 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = false
+
+format = """
+$nix_shell$username\
+[](bg:#51576d fg:#a6d189)\
+$directory\
+[](fg:#51576d) \
+"""
+
+right_format = "$git_branch $time"
+
+[username]
+show_always = true
+disabled = false
+style_user = "bg:#a6d189 fg:#51576d"
+style_root = "bg:#a6d189 fg:#51576d"
+format = '[ $user ]($style)'
+
+[nix_shell]
+style = "fg:black bg:blue"
+format = "[ $name ]($style)[](fg:blue bg:#a6d189)"
+
+[directory]
+style = "fg:#c6d0f5 bg:#51576d"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[git_branch]
+style = "fg:#a5adce"
+format = '[$symbol$branch]($style)'
+
+[time]
+disabled = false
+style = "fg:#a5adce"
+time_format = '%I:%M:%S %P'
+format = '[$time]($style)'
