@@ -1,13 +1,9 @@
-# trace: warning: The option `services.xserver.xkbVariant' defined in `/etc/nixos/configuration.nix' has been renamed to `services.xserver.xkb.variant'.
-# trace: warning: The option `services.xserver.layout' defined in `/etc/nixos/configuration.nix' has been renamed to `services.xserver.xkb.layout'.
-
-
 { config, pkgs, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      /etc/nixos/hardware-configuration.nix
     ];
 
   # Bootloader.
@@ -45,9 +41,9 @@
   services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
-  services.xserver = {
+  services.xserver.xkb = {
     layout = "gb";
-    xkbVariant = "";
+    variant = "";
   };
 
   # Configure console keymap
@@ -66,13 +62,16 @@
     pulse.enable = true;
   };
 
-  services.xserver.libinput.enable = true;
+  services.libinput.enable = true;
 
 
   users.users.charlie = {
     isNormalUser = true;
     description = "Charlie Clift";
     extraGroups = [ "networkmanager" "wheel" ];
+    packages = with pkgs; [
+      slack
+    ];
   };
 
   environment.systemPackages = with pkgs; [
@@ -83,10 +82,13 @@
     rustup
     neofetch
     zsh
+    fprintd
   ];
   users.defaultUserShell = pkgs.zsh;
   programs.starship.enable = true;
   programs.zsh.enable = true;
+  environment.gnome.excludePackages = [ pkgs.gnome-tour ];
+  services.xserver.excludePackages = [ pkgs.xterm ];
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -94,11 +96,6 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -109,7 +106,16 @@
   system.stateVersion = "24.05"; # Did you read the comment?
   nixpkgs.config.allowUnfree = true;
   
+  # Fingerprint Sensor
   
+  services.fprintd = {
+    enable = true;
+    package = pkgs.fprintd-tod;
+    tod = {
+      enable = true;
+      driver = pkgs.libfprint-2-tod1-goodix;
+    };
+  };
   # Graphics Card
   
   hardware.opengl.enable = true;
