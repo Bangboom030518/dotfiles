@@ -71,7 +71,7 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       slack
-      spotifyd
+      spotify
     ];
   };
 
