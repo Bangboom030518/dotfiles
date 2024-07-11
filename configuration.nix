@@ -84,6 +84,7 @@
     neofetch
     zsh
     fprintd
+    opera
   ];
   users.defaultUserShell = pkgs.zsh;
   programs.starship.enable = true;
