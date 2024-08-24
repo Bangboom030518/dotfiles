@@ -85,10 +85,20 @@
     zsh
     fprintd
     opera
+    clang
+    nodejs
+    wl-clipboard
+    ripgrep
+    haskellPackages.cabal-install
+    haskellPackages.haskell-language-server
+    ghc
   ];
   users.defaultUserShell = pkgs.zsh;
-  programs.starship.enable = true;
-  programs.zsh.enable = true;
+  programs = {
+    starship.enable = true;
+    zsh.enable = true;
+    nix-ld.enable = true;
+  };
   environment.gnome.excludePackages = [ pkgs.gnome-tour ];
   services.xserver.excludePackages = [ pkgs.xterm ];
   # Some programs need SUID wrappers, can be configured further or are

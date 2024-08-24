@@ -93,6 +93,7 @@ require("mason-lspconfig").setup({
 		"cssls",
 		"emmet_ls",
 		"html",
+		"taplo",
 	},
 	handlers = {
 		function(server_name)
