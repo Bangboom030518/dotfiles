@@ -1,13 +1,13 @@
 PATH=$PATH:$HOME/.fzf/bin:$HOME/bin:$HOME/.zvm/bin:$HOME/.zvm/self:$HOME/.npm-global/bin
 
-# if [[ $TERM_PROGRAM != "vscode" ]] && [ -z $TMUX ]; then
-#	session=$(tmux list-sessions -F "#{session_id}" | head -1)
-#	if [ -z $session ]; then
-#		exec tmux new-session
-#	else
-#		exec tmux attach-session -t $session
-#	fi
-# fi
+if [[ $TERM_PROGRAM != "vscode" ]] && [ -z $TMUX ]; then
+	session=$(tmux list-sessions -F "#{session_id}" | head -1)
+       	if [ -z $session ]; then
+		exec tmux new-session
+       	else
+       		exec tmux attach-session -t $session
+       	fi
+fi
 
 # Set the directory we want to store zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"

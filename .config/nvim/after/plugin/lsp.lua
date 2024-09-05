@@ -2,6 +2,12 @@ if vim.g.vscode then
 	return
 end
 
+vim.g.haskell_tools = {
+	hls = {
+		on_attach = on_attach,
+	},
+}
+
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 	border = "rounded",
 })
@@ -65,6 +71,7 @@ vim.g.rustaceanvim = {
 local null_ls = require("null-ls")
 
 vim.g.writing_mode = false
+
 local writing_mode_source = {
 	filetypes = {},
 	runtime_condition = function()
@@ -83,8 +90,35 @@ null_ls.setup({
 })
 
 require("neodev").setup()
-
-require("mason").setup()
+require('telescope').setup({
+	pickers = {
+		find_files = {
+			hidden = true
+		},
+		live_grep = {
+			hidden = true
+		}
+	},
+	defaults = {
+		vimgrep_arguments = {
+			"rg",
+			"--color=never",
+			"--no-heading",
+			"--with-filename",
+			"--line-number",
+			"--column",
+			"--hidden",
+			"--smart-case",
+		},
+	}
+})
+require("mason").setup({
+	ensure_installed = {
+		"prettier",
+		"stylua",
+		"nixpkgs_fmt",
+	}
+})
 require("mason-lspconfig").setup({
 	ensure_installed = {
 		"rust_analyzer",

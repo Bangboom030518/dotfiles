@@ -64,6 +64,10 @@
 
   services.libinput.enable = true;
 
+  fonts.packages = with pkgs; [
+    (nerdfonts.override { fonts = [ "FiraMono" ]; })
+    noto-fonts-color-emoji
+  ];
 
   users.users.charlie = {
     isNormalUser = true;
@@ -92,6 +96,9 @@
     haskellPackages.cabal-install
     haskellPackages.haskell-language-server
     ghc
+    tmux
+    vscode
+    tailwindcss
   ];
   users.defaultUserShell = pkgs.zsh;
   programs = {
@@ -173,5 +180,12 @@
 		nvidiaBusId = "PCI:01:0:0";
                 # amdgpuBusId = "PCI:54:0:0"; For AMD GPU
 	};
+
+	services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = false;
+    };
+  };
 
 }
