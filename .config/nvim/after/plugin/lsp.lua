@@ -2,12 +2,6 @@ if vim.g.vscode then
 	return
 end
 
-vim.g.haskell_tools = {
-	hls = {
-		on_attach = on_attach,
-	},
-}
-
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 	border = "rounded",
 })
@@ -38,6 +32,14 @@ local function on_attach(client, bufnr)
 	nmap("K", vim.lsp.buf.hover, "Hover Documentation")
 	nmap("<leader>ih", ":InlayHintsToggle<CR>", "Toggle [I]nlay [H]ints")
 end
+
+
+vim.g.haskell_tools = {
+	hls = {
+		on_attach = on_attach,
+	},
+}
+
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)

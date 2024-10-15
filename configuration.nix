@@ -1,8 +1,16 @@
 { config, pkgs, ... }:
 
 {
+  nix = {
+    package = pkgs.nixFlakes;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+  };
+
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       /etc/nixos/hardware-configuration.nix
     ];
 
@@ -76,6 +84,8 @@
     packages = with pkgs; [
       slack
       spotify
+      audacity
+      mysql-workbench
     ];
   };
 
@@ -93,12 +103,11 @@
     nodejs
     wl-clipboard
     ripgrep
-    haskellPackages.cabal-install
-    haskellPackages.haskell-language-server
-    ghc
     tmux
     vscode
     tailwindcss
+    pkg-config
+    openssl
   ];
   users.defaultUserShell = pkgs.zsh;
   programs = {
@@ -124,9 +133,9 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
   nixpkgs.config.allowUnfree = true;
-  
+
   # Fingerprint Sensor
-  
+
   services.fprintd = {
     enable = true;
     package = pkgs.fprintd-tod;
@@ -136,10 +145,10 @@
     };
   };
   # Graphics Card
-  
+
   hardware.opengl.enable = true;
 
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
 
@@ -166,22 +175,22 @@
     open = false;
 
     # Enable the Nvidia settings menu,
-	# accessible via `nvidia-settings`.
+    # accessible via `nvidia-settings`.
     nvidiaSettings = true;
 
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
-	hardware.nvidia.prime = {
-	  sync.enable = true;
-		# Make sure to use the correct Bus ID values for your system!
-		intelBusId = "PCI:0:2:0";
-		nvidiaBusId = "PCI:01:0:0";
-                # amdgpuBusId = "PCI:54:0:0"; For AMD GPU
-	};
+  hardware.nvidia.prime = {
+    sync.enable = true;
+    # Make sure to use the correct Bus ID values for your system!
+    intelBusId = "PCI:0:2:0";
+    nvidiaBusId = "PCI:01:0:0";
+    # amdgpuBusId = "PCI:54:0:0"; For AMD GPU
+  };
 
-	services.openssh = {
+  services.openssh = {
     enable = true;
     settings = {
       PasswordAuthentication = false;
