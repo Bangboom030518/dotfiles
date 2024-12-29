@@ -107,13 +107,27 @@
     vscode
     tailwindcss
     pkg-config
-    openssl
+    chromium
+    python3
+    google-chrome
+    powertop
+    # nvtopPackages.intel
+    anki
+    nnn
+    turso-cli
+    cargo-shuttle
   ];
   users.defaultUserShell = pkgs.zsh;
   programs = {
     starship.enable = true;
     zsh.enable = true;
-    nix-ld.enable = true;
+    nix-ld = {
+      enable = true;
+      libraries = with pkgs; [
+        zlib
+        openssl.dev
+      ];
+    };
   };
   environment.gnome.excludePackages = [ pkgs.gnome-tour ];
   services.xserver.excludePackages = [ pkgs.xterm ];

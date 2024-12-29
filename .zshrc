@@ -1,12 +1,13 @@
 PATH=$PATH:$HOME/.fzf/bin:$HOME/bin:$HOME/.zvm/bin:$HOME/.zvm/self:$HOME/.npm-global/bin
 
 if [[ $TERM_PROGRAM != "vscode" ]] && [ -z $TMUX ]; then
-	session=$(tmux list-sessions -F "#{session_id}" | head -1)
-       	if [ -z $session ]; then
-		exec tmux new-session
-       	else
-       		exec tmux attach-session -t $session
-       	fi
+	# session=$(tmux list-sessions -F "#{session_id}" | head -1)
+	exec tmux new-session
+       	# if [ -z $session ]; then
+		# exec tmux new-session
+       	# else
+       	# 	exec tmux attach-session -t $session
+       	# fi
 fi
 
 # Set the directory we want to store zinit and plugins
@@ -74,3 +75,9 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
 command -v fzf &> /dev/null && eval "$(fzf --zsh)"
+
+# export OPENSSL_DIR='/nix/store/qj7xqrfka9qa6g4rlrncdjvn5g3555db-openssl-3.0.13-dev/lib/pkgconfig'
+# export PKG_CONFIG_PATH='/nix/store/qj7xqrfka9qa6g4rlrncdjvn5g3555db-openssl-3.0.13-dev/lib/pkgconfig'
+
+# Turso
+export PATH="$PATH:/home/charlie/.turso"
