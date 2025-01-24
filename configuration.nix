@@ -98,7 +98,6 @@
     neofetch
     zsh
     fprintd
-    opera
     clang
     nodejs
     wl-clipboard
@@ -116,6 +115,10 @@
     nnn
     turso-cli
     cargo-shuttle
+    gimp
+    btop
+    yt-dlp
+    ffmpeg
   ];
   users.defaultUserShell = pkgs.zsh;
   programs = {
