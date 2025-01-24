@@ -1,13 +1,7 @@
 export PATH=$PATH:$HOME/.fzf/bin:$HOME/bin:$HOME/.zvm/bin:$HOME/.zvm/self:$HOME/.npm-global/bin:$HOME/.cargo/bin
 
 if [[ $TERM_PROGRAM != "vscode" ]] && [ -z $TMUX ]; then
-	# session=$(tmux list-sessions -F "#{session_id}" | head -1)
 	exec tmux new-session
-       	# if [ -z $session ]; then
-		# exec tmux new-session
-       	# else
-       	# 	exec tmux attach-session -t $session
-       	# fi
 fi
 
 # Set the directory we want to store zinit and plugins
@@ -22,15 +16,30 @@ fi
 # Source/Load zinit
 source "${ZINIT_HOME}/zinit.zsh"
 
-# zinit ice as"command" from"gh-r" \
-#          atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
-#          atpull"%atclone" src"init.zsh"
-# zinit light starship/starship
+zinit ice as"command" from"gh-r" \
+         atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
+         atpull"%atclone" src"init.zsh"
+zinit light starship/starship
 
-zinit light zsh-users/zsh-syntax-highlighting
+zinit ice wait lucid blockf atload"zicompinit; zicdreplay"
 zinit light zsh-users/zsh-completions
+
+zinit ice wait lucid atload'_zsh_autosuggest_start'
 zinit light zsh-users/zsh-autosuggestions
+
+zinit ice wait lucid
 zinit light chisui/zsh-nix-shell
+
+zinit ice wait lucid
+zinit snippet OMZP::git
+
+zinit ice wait lucid
+zinit light zsh-users/zsh-syntax-highlighting
+
+zinit ice depth=1
+zinit light jeffreytse/zsh-vi-mode
+
+zinit cdreplay -q
 
 zinit snippet OMZP::git
 
@@ -76,8 +85,5 @@ export NVM_DIR="$HOME/.nvm"
 
 command -v fzf &> /dev/null && eval "$(fzf --zsh)"
 
-# export OPENSSL_DIR='/nix/store/qj7xqrfka9qa6g4rlrncdjvn5g3555db-openssl-3.0.13-dev/lib/pkgconfig'
-# export PKG_CONFIG_PATH='/nix/store/qj7xqrfka9qa6g4rlrncdjvn5g3555db-openssl-3.0.13-dev/lib/pkgconfig'
-export DATABASE_URL="libsql://flashcards-charliec.turso.io"
 # Turso
 export PATH="$PATH:/home/charlie/.turso"
