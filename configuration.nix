@@ -18,7 +18,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "Charlie's Laptop"; # Define your hostname.
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -106,7 +106,6 @@
     vscode
     tailwindcss
     pkg-config
-    chromium
     python3
     google-chrome
     powertop
@@ -124,8 +123,11 @@
     hunspell
     hunspellDicts.uk_UA
     hunspellDicts.th_TH
+    mpv
+    gnumake
   ];
   users.defaultUserShell = pkgs.zsh;
+  powerManagement.powertop.enable = true;
   programs = {
     starship.enable = true;
     zsh.enable = true;
