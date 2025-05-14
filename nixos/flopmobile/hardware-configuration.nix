@@ -81,4 +81,15 @@
   #   nvidiaBusId = "PCI:01:0:0";
   #   # amdgpuBusId = "PCI:54:0:0"; For AMD GPU
   # };
+
+  # Fingerprint Sensor
+
+  services.fprintd = {
+    enable = true;
+    package = pkgs.fprintd-tod;
+    tod = {
+      enable = true;
+      driver = pkgs.libfprint-2-tod1-goodix;
+    };
+  };
 }
