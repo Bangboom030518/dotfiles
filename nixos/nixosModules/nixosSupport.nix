@@ -1,10 +1,4 @@
-{ pkgs
-, config
-, lib
-, inputs
-, ...
-}:
-
+{ pkgs, config, lib, inputs, ... }:
 {
   nix =
     let
@@ -25,7 +19,7 @@
           "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         ];
       };
-      # channel.enable = false;
+      channel.enable = false;
       registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
       nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
     };

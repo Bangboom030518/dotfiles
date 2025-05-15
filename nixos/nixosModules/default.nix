@@ -1,22 +1,11 @@
-{ config, pkgs, lib, ... }:
-let
-  home-manager = builtins.fetchTarball {
-    url = https://github.com/nix-community/home-manager/archive/release-24.11.tar.gz;
-    sha256 = "sha256:1vf41h2362jk6qxih57wx779i1sqmd98j49cw5z6mhxs429apzhg";
-  };
-in
+{ config, pkgs, lib, home-manager, ... }:
 {
   imports = [
-    (import "${home-manager}/nixos")
     ./nixosSupport.nix
   ];
-  # Enable networking
+
   networking.networkmanager.enable = true;
-
-  # Set your time zone.
   time.timeZone = "Europe/London";
-
-  # Select internationalisation properties.
   i18n.defaultLocale = "en_GB.UTF-8";
 
   i18n.extraLocaleSettings = {
@@ -30,6 +19,7 @@ in
     LC_TELEPHONE = "en_GB.UTF-8";
     LC_TIME = "en_GB.UTF-8";
   };
+  environment.pathsToLink = [ "/share/zsh" ];
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -51,7 +41,7 @@ in
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -63,7 +53,7 @@ in
   services.libinput.enable = true;
 
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "FiraMono" ]; })
+    nerd-fonts.fira-mono
     noto-fonts-color-emoji
   ];
 
@@ -73,90 +63,80 @@ in
     extraGroups = [ "networkmanager" "wheel" ];
   };
 
-  home-manager.users.charlie = { pkgs, ... }: {
-    xdg = {
+  environment.systemPackages = with pkgs; [
+    neovim
+    lshw
+    github-cli
+    git
+    rustup
+    neofetch
+    zsh
+    fprintd
+    clang
+    nodejs
+    wl-clipboard
+    ripgrep
+    tmux
+    vscode
+    tailwindcss
+    pkg-config
+    python3
+    google-chrome
+    powertop
+    # nvtopPackages.intel
+    anki
+    nnn
+    turso-cli
+    cargo-shuttle
+    gimp
+    btop
+    yt-dlp
+    ffmpeg
+    pavucontrol
+    libreoffice-qt
+    hunspell
+    hunspellDicts.uk_UA
+    hunspellDicts.th_TH
+    mpv
+    gnumake
+    mcpelauncher-ui-qt
+    steam
+    slack
+    spotify
+    audacity
+    mysql-workbench
+    decibels
+  ];
+  users.defaultUserShell = pkgs.zsh;
+  powerManagement.powertop.enable = true;
+  programs = {
+    starship.enable = true;
+    zsh.enable = true;
+    nix-ld = {
       enable = true;
-      configFile."nvim".source = ../../nvim;
-        };
-      # The state version is required and should stay at the version you
-      # originally installed.
-      home.stateVersion = "24.11";
+      libraries = with pkgs; [
+        zlib
+        openssl.dev
+      ];
     };
+  };
+  environment.gnome.excludePackages = [ pkgs.gnome-tour ];
+  services.xserver.excludePackages = [ pkgs.xterm ];
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  # programs.mtr.enable = true;
+  # programs.gnupg.agent = {
+  #   enable = true;
+  #   enableSSHSupport = true;
+  # };
 
-    environment.systemPackages = with pkgs; [
-      neovim
-      lshw
-      github-cli
-      git
-      rustup
-      neofetch
-      zsh
-      fprintd
-      clang
-      nodejs
-      wl-clipboard
-      ripgrep
-      tmux
-      vscode
-      tailwindcss
-      pkg-config
-      python3
-      google-chrome
-      powertop
-      # nvtopPackages.intel
-      anki
-      nnn
-      turso-cli
-      cargo-shuttle
-      gimp
-      btop
-      yt-dlp
-      ffmpeg
-      pavucontrol
-      libreoffice-qt
-      hunspell
-      hunspellDicts.uk_UA
-      hunspellDicts.th_TH
-      mpv
-      gnumake
-      mcpelauncher-ui-qt
-      steam
-      slack
-      spotify
-      audacity
-      mysql-workbench
-      decibels
-    ];
-    users.defaultUserShell = pkgs.zsh;
-    powerManagement.powertop.enable = true;
-    programs = {
-      starship.enable = true;
-      zsh.enable = true;
-      nix-ld = {
-        enable = true;
-        libraries = with pkgs; [
-          zlib
-          openssl.dev
-        ];
-      };
+  nixpkgs.config.allowUnfree = true;
+
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = false;
     };
-    environment.gnome.excludePackages = [ pkgs.gnome-tour ];
-    services.xserver.excludePackages = [ pkgs.xterm ];
-    # Some programs need SUID wrappers, can be configured further or are
-    # started in user sessions.
-    # programs.mtr.enable = true;
-    # programs.gnupg.agent = {
-    #   enable = true;
-    #   enableSSHSupport = true;
-    # };
+  };
 
-    nixpkgs.config.allowUnfree = true;
-
-    services.openssh = {
-      enable = true;
-      settings = {
-        PasswordAuthentication = false;
-      };
-    };
-
-  }
+}
