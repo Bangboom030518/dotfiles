@@ -3,7 +3,9 @@
   xdg = {
     enable = true;
     configFile."nvim".source = ../../nvim;
+    configFile."mimeapps.list".source = ../../mimeapps.list;
   };
+
   home.sessionVariables = {
     PATH = "$PATH:$HOME/.fzf/bin:$HOME/bin:$HOME/.zvm/bin:$HOME/.zvm/self:$HOME/.npm-global/bin:$HOME/.cargo/bin";
     EDITOR = "nvim";
@@ -15,10 +17,7 @@
          atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
          atpull"%atclone" src"init.zsh"
 
-      zinit ice wait lucid
       zinit light chisui/zsh-nix-shell
-
-      zinit ice wait lucid
       zinit snippet OMZP::git
 
       zinit ice depth=1
