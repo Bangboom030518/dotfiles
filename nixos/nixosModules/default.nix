@@ -83,7 +83,6 @@
     python3
     google-chrome
     powertop
-    # nvtopPackages.intel
     anki
     nnn
     turso-cli
@@ -104,21 +103,18 @@
     slack
     spotify
     audacity
-    mysql-workbench
     decibels
   ];
   users.defaultUserShell = pkgs.zsh;
   powerManagement.powertop.enable = true;
-  programs = {
-    starship.enable = true;
-    zsh.enable = true;
-    nix-ld = {
-      enable = true;
-      libraries = with pkgs; [
-        zlib
-        openssl.dev
-      ];
-    };
+  programs.starship.enable = true;
+  programs.zsh.enable = true;
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      zlib
+      openssl.dev
+    ];
   };
   environment.gnome.excludePackages = [ pkgs.gnome-tour ];
   services.xserver.excludePackages = [ pkgs.xterm ];
@@ -136,6 +132,15 @@
     enable = true;
     settings = {
       PasswordAuthentication = false;
+    };
+  };
+
+  services.tor = {
+    enable = true;
+    torsocks.enable = true;
+    client.enable = true;
+    settings = {
+      ControlPort = 9051;
     };
   };
 

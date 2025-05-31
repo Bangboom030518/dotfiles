@@ -29,7 +29,7 @@
                 overlay-unstable
               ];
             }
-            ./flopmobile
+            ./flopmobile.nix
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;

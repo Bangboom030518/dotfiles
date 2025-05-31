@@ -89,5 +89,38 @@
       };
     };
   };
+  home.packages = with pkgs.gnomeExtensions; [
+    dash-to-dock
+    clipboard-history
+    hibernate-status-button
+    app-hider
+  ];
+  dconf = {
+    enable = true;
+
+    settings = {
+      "org/gnome/desktop/interface" = {
+        gtk-enable-primary-paste = false;
+      };
+
+      "org/gnome/shell" = {
+        enabled-extensions = with pkgs.gnomeExtensions; [
+          dash-to-dock.extensionUuid
+          clipboard-history.extensionUuid
+          hibernate-status-button.extensionUuid
+          app-hider.extensionUuid
+        ];
+      };
+
+      "org/gnome/shell/extensions/app-hider" = {
+        hidden-apps = [ "btop.desktop" "mpv.desktop" "nvim.desktop" "nnn.desktop" ];
+      };
+
+      "org/gnome/shell/extensions/dash-to-dock" = {
+        show-trash = false;
+      };
+    };
+  };
+
   home.stateVersion = "24.11";
 }
