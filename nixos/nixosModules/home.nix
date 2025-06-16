@@ -51,7 +51,21 @@
     };
     shellAliases = {
       vim = "nvim";
+      nd = "nix develop";
+      ts = "torsocks";
     };
+    # zplug = {
+    #   enable = true;
+    #   plugins = [
+    #     "jeffreytse/zsh-vi-mode"
+    #   ];
+    # };
+    # plugins = [
+    #   {
+    #     name = "never-gonna-give-you-up";
+    #     src = pkgs.zsh-vi-mode;
+    #   }
+    # ];
   };
   programs.starship = {
     enable = true;
@@ -94,6 +108,7 @@
     clipboard-history
     hibernate-status-button
     app-hider
+    pkgs.oh-my-zsh
   ];
   dconf = {
     enable = true;

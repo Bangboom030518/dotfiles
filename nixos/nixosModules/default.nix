@@ -72,6 +72,7 @@
     neofetch
     zsh
     fprintd
+    libfprint
     clang
     nodejs
     wl-clipboard
@@ -87,7 +88,7 @@
     nnn
     turso-cli
     cargo-shuttle
-    gimp
+    gimp3
     btop
     yt-dlp
     ffmpeg
@@ -104,6 +105,9 @@
     spotify
     audacity
     decibels
+    tor-browser
+    eyedropper
+    typst
   ];
   users.defaultUserShell = pkgs.zsh;
   powerManagement.powertop.enable = true;
@@ -116,7 +120,9 @@
       openssl.dev
     ];
   };
-  environment.gnome.excludePackages = [ pkgs.gnome-tour ];
+  environment.gnome.excludePackages = [
+    pkgs.gnome-tour
+  ];
   services.xserver.excludePackages = [ pkgs.xterm ];
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
